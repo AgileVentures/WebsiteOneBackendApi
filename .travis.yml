@@ -1,8 +1,10 @@
 language: ruby
 rvm:
-    - 2.6.2
+  - 2.6.2
+install:
+  - bundle install
 before_script:
-    - rake db:migrate
-    - rake db:test:prepare
+  - bundle exec db:test:prepare
 script:
-    - rake spec
+  - bundle exec rake db:migrate RAILS_ENV=test
+  - bundle exec rspec
