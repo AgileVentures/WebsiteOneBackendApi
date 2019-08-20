@@ -1,8 +1,14 @@
 language: ruby
 rvm:
-    - 2.6.2
+  - 2.6.2
+services:
+  - postgresql
+install:
+  - bundle install
 before_script:
-    - rake db:migrate
-    - rake db:test:prepare
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.travis.yml config/database.yml
 script:
-    - rake spec
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rspec
