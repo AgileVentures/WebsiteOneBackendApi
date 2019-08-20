@@ -22,7 +22,7 @@ RSpec.describe Event do
 
   describe 'Validations' do
     it { should validate_presence_of :name}
-    it { should validate_presence_of :timezone}
+    it { should validate_presence_of :time_zone}
     it { should validate_presence_of :repeats}
     it { should validate_presence_of :category}
     it { should validate_presence_of :start_datetime}
