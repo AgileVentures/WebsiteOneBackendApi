@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   def index
-    render json: {}
+    @events = Event.all
+    render json: @events, status: 200
   end
 end
