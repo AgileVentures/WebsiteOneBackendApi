@@ -32,8 +32,14 @@ RSpec.describe EventsController do
   end
 
   context 'create Events' do
-    before do
-      post events, {}
+    subject { post '/events', params: {event: event_params}  } 
+    it 'responds with 200 status' do
+      subject
+      expect(response.status).to eq(200)
+    end
+    
+    it 'adds one record in the events table' do      
+      expect{subject}.to change{Event.count}.by 1
     end
   end
 end
