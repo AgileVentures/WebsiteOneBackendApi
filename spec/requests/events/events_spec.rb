@@ -4,7 +4,8 @@ require 'rails_helper'
 
 RSpec.describe EventsController do
   let(:endpoint) { '/events' }
-  let(:event_params) {{name: 'Random Event', time_zone: 'UTC + 3', repeats: 'once', category: 'Pair programing', start_datetime: Date.parse('31-12-2010'), duration: 60}}
+  let(:event_params) { { name: 'Random Event', time_zone: 'UTC + 3', repeats: 'once', category: 'Pair programing', start_datetime: Date.parse('31-12-2010'), duration: 60 } }
+  let(:invalid_event_params) { { name: nil, time_zone: 'UTC + 3', repeats: nil, category: 'Pair programing', start_datetime: Date.parse('31-12-2010'), duration: nil } }
 
   context 'GET /events' do
     context 'succesful' do
@@ -25,21 +26,40 @@ RSpec.describe EventsController do
         subject
         json_response = JSON.parse(response.body)
         json_response.each do |event|
-        expect(event.keys).to match_array(%w[category created_at creator_attendance creator_id description duration exclusions for id modifier_id name project_id repeat_ends repeat_ends_on repeats repeats_every_n_weeks repeats_weekly_each_days_of_the_week_mask slug start_datetime time_zone updated_at url])
+          expect(event.keys).to match_array(%w[category created_at creator_attendance creator_id description duration exclusions for id modifier_id name project_id repeat_ends repeat_ends_on repeats repeats_every_n_weeks repeats_weekly_each_days_of_the_week_mask slug start_datetime time_zone updated_at url])
         end
       end
     end
   end
 
   context 'create Events' do
-    subject { post '/events', params: {event: event_params}  } 
-    it 'responds with 200 status' do
-      subject
-      expect(response.status).to eq(200)
+    context 'valid params' do
+      subject { post '/events', params: { event: event_params } }
+      it 'responds with 200 status' do
+        subject
+        expect(response.status).to eq(201)
+      end
+
+      it 'adds one record in the events table' do
+        expect { subject }.to change { Event.count }.by 1
+      end
     end
-    
-    it 'adds one record in the events table' do      
-      expect{subject}.to change{Event.count}.by 1
+    context 'invalid params' do
+      subject { post '/events', params: { event: invalid_event_params } }
+      it 'responds with 422 status' do
+        subject
+        expect(response.status).to eq(422)
+      end
+      it 'does not change the count of event records' do
+        expect { subject }.to change { Event.count }.by 0
+      end
+      it 'responds with correct error messages' do
+        subject
+        json_response = JSON.parse(response.body)
+        expect(json_response['name']).to eq(["can't be blank"])
+        expect(json_response['repeats']).to eq(["can't be blank"])
+        expect(json_response['duration']).to eq(["can't be blank"])
+      end
     end
   end
 end
