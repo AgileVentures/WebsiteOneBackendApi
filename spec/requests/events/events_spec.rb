@@ -64,11 +64,10 @@ RSpec.describe EventsController do
 
   context 'PUT /events' do
     let(:event) { Event.create(event_params) }
-    let(:update_event_valid_params) { { name: 'Updated Event', category: 'Scrums' } }
-    let(:update_event_invalid_params) { { name: nil, category: nil } }
 
     context 'valid params' do
       subject { put event_path(event), params: { event: update_event_valid_params } }
+      let(:update_event_valid_params) { { name: 'Updated Event', category: 'Scrums' } }
       it 'responds with status 200' do
         subject
         expect(response.status).to eq(200)
@@ -78,6 +77,22 @@ RSpec.describe EventsController do
         json_response = response.parsed_body
         expect(json_response['name']).to eq(update_event_valid_params[:name])
         expect(json_response['category']).to eq(update_event_valid_params[:category])
+      end
+    end
+
+    context 'invalid params' do
+      subject { put event_path(event), params: { event: update_event_invalid_params } }
+      let(:update_event_invalid_params) { { name: nil, category: nil } }
+      it 'responds with a 422 status' do
+        subject
+        expect(response.status).to eq(422)
+      end
+
+      it 'responds with the correct error messages' do
+        subject
+        json_response = response.parsed_body
+        expect(json_response['name']).to eq(["can't be blank"])
+        expect(json_response['category']).to eq(["can't be blank"])
       end
     end
   end
