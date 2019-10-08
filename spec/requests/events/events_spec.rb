@@ -16,14 +16,14 @@ RSpec.describe EventsController do
 
       it 'JSON body is empty array if there are no records in database' do
         subject
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response).to eq([])
       end
 
       it 'JSON response has correct attributes' do
         Event.create(event_params)
         subject
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         json_response.each do |event|
           expect(event.keys).to match_array(%w[category created_at creator_attendance creator_id description duration exclusions for id modifier_id name project_id repeat_ends repeat_ends_on repeats repeats_every_n_weeks repeats_weekly_each_days_of_the_week_mask slug start_datetime time_zone updated_at url])
         end
@@ -54,7 +54,7 @@ RSpec.describe EventsController do
       end
       it 'responds with correct error messages' do
         subject
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['name']).to eq(["can't be blank"])
         expect(json_response['repeats']).to eq(["can't be blank"])
         expect(json_response['duration']).to eq(["can't be blank"])
