@@ -6,7 +6,6 @@ RSpec.describe EventsController do
   let(:endpoint) { '/events' }
   let(:event_params) { { name: 'Random Event', time_zone: 'UTC + 3', repeats: 'once', category: 'Pair programing', start_datetime: Date.parse('31-12-2010'), duration: 60 } }
   let(:invalid_event_params) { { name: nil, time_zone: 'UTC + 3', repeats: nil, category: 'Pair programing', start_datetime: Date.parse('31-12-2010'), duration: nil } }
-
   context 'GET /events' do
     context 'succesful' do
       subject { get endpoint }
@@ -32,7 +31,7 @@ RSpec.describe EventsController do
     end
   end
 
-  context 'create Events' do
+  context 'POST /events' do
     context 'valid params' do
       subject { post '/events', params: { event: event_params } }
       it 'responds with 200 status' do
@@ -59,6 +58,26 @@ RSpec.describe EventsController do
         expect(json_response['name']).to eq(["can't be blank"])
         expect(json_response['repeats']).to eq(["can't be blank"])
         expect(json_response['duration']).to eq(["can't be blank"])
+      end
+    end
+  end
+
+  context 'PUT /events' do
+    let(:event) { Event.create(event_params) }
+    let(:update_event_valid_params) { { name: 'Updated Event', category: 'Scrums' } }
+    let(:update_event_invalid_params) { { name: nil, category: nil } }
+
+    context 'valid params' do
+      subject { put event_path(event), params: { event: update_event_valid_params } }
+      it 'responds with status 200' do
+        subject
+        expect(response.status).to eq(200)
+      end
+      it 'returns an updated event' do
+        subject
+        json_response = response.parsed_body
+        expect(json_response['name']).to eq(update_event_valid_params[:name])
+        expect(json_response['category']).to eq(update_event_valid_params[:category])
       end
     end
   end

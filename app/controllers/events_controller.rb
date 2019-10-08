@@ -15,6 +15,12 @@ class EventsController < ApplicationController
     end
   end
 
+  def update
+    @event = Event.find_by(id: params[:id])
+    @event.update!(event_params)
+    render json: @event, status: :ok
+  end
+
   private
 
   def event_params
