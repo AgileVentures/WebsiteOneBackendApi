@@ -24,6 +24,11 @@ class EventsController < ApplicationController
     end
   end
 
+  def show
+    @event = Event.find_by!(id: params[:id])
+    render json: @event
+  end
+
   private
 
   def event_params
