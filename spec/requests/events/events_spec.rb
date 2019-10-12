@@ -96,4 +96,20 @@ RSpec.describe EventsController do
       end
     end
   end
+  describe 'Events#Show' do
+    let(:event) { Event.create(event_params) }
+    context 'with a valid event' do
+      it 'should respond with status ok' do
+        get event_path(event)
+        expect(response.status).to eq 200
+      end
+    end
+
+    context 'an invalid event' do
+      it 'should raise status 400' do
+        get event_path('xyz')
+        expect(response.status).to eq 404
+      end
+    end
+  end
 end
