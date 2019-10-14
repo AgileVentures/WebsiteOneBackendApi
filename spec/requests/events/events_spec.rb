@@ -112,4 +112,22 @@ RSpec.describe EventsController do
       end
     end
   end
+
+  context 'Events#Delete' do
+    context 'record in the database' do
+      it 'should destroy a user' do
+        event = Event.create(event_params)
+        expect { delete event_path(event), as: :json }.to change { Event.count }.by -1
+        assert_response :no_content
+      end
+    end
+    context 'record not in database' do
+      it 'responds with 404 and does not delete any event' do
+        event = Event.create(event_params)
+        event.delete
+        expect { delete event_path(event), as: :json }.to change { Event.count }.by 0
+        expect(response.status).to eq 404
+      end
+    end
+  end
 end

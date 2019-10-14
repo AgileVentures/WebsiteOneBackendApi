@@ -29,6 +29,16 @@ class EventsController < ApplicationController
     render json: @event
   end
 
+  def destroy
+    @event = Event.find_by(id: params[:id])
+    if @event
+      @event.destroy
+      head 204
+    else
+      render status: 404
+    end
+  end
+
   private
 
   def event_params
