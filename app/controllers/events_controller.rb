@@ -30,13 +30,9 @@ class EventsController < ApplicationController
   end
 
   def destroy
-    @event = Event.find_by(id: params[:id])
-    if @event
-      @event.destroy
-      head 204
-    else
-      render status: 404
-    end
+    @event = Event.find(params[:id])
+    @event.destroy
+    head 204
   end
 
   private
