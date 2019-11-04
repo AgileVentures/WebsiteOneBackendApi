@@ -4,8 +4,9 @@ require 'rails_helper'
 
 RSpec.describe EventsController do
   let(:endpoint) { '/events' }
-  let(:event_params) { { name: 'Random Event', time_zone: 'UTC + 3', repeats: 'once', category: 'Pair programing', start_datetime: Date.parse('31-12-2010'), duration: 60 } }
-  let(:invalid_event_params) { { name: nil, time_zone: 'UTC + 3', repeats: nil, category: 'Pair programing', start_datetime: Date.parse('31-12-2010'), duration: nil } }
+  let(:event) { create(:event) }
+  let(:invalid_event) { create(:invalid_event) }
+
   context 'GET /events' do
     context 'succesful' do
       subject { get endpoint }
@@ -21,7 +22,7 @@ RSpec.describe EventsController do
       end
 
       it 'JSON response has correct attributes' do
-        Event.create(event_params)
+        create_list(:event, 10)
         subject
         json_response = response.parsed_body
         json_response.each do |event|
@@ -33,7 +34,7 @@ RSpec.describe EventsController do
 
   context 'POST /events' do
     context 'valid params' do
-      subject { post '/events', params: { event: event_params } }
+      subject { post '/events', params: { event: attributes_for(:event) } }
       it 'responds with 200 status' do
         subject
         expect(response.status).to eq(201)
@@ -43,15 +44,18 @@ RSpec.describe EventsController do
         expect { subject }.to change { Event.count }.by 1
       end
     end
+
     context 'invalid params' do
-      subject { post '/events', params: { event: invalid_event_params } }
+      subject { post '/events', params: { event: attributes_for(:invalid_event) } }
       it 'responds with 422 status' do
         subject
         expect(response.status).to eq(422)
       end
+
       it 'does not change the count of event records' do
         expect { subject }.to change { Event.count }.by 0
       end
+
       it 'responds with correct error messages' do
         subject
         json_response = response.parsed_body
@@ -63,15 +67,14 @@ RSpec.describe EventsController do
   end
 
   context 'PUT /events' do
-    let(:event) { Event.create(event_params) }
-
     context 'valid params' do
-      subject { put event_path(event), params: { event: update_event_valid_params } }
       let(:update_event_valid_params) { { name: 'Updated Event', category: 'Scrums' } }
+      subject { put event_path(event), params: { event: update_event_valid_params } }
       it 'responds with status 200' do
         subject
         expect(response.status).to eq(200)
       end
+
       it 'returns an updated event' do
         subject
         json_response = response.parsed_body
@@ -96,8 +99,9 @@ RSpec.describe EventsController do
       end
     end
   end
+
   describe 'Events#Show' do
-    let(:event) { Event.create(event_params) }
+    let(:event) { create(:event) }
     context 'with a valid event' do
       it 'should respond with status ok' do
         get event_path(event)
@@ -116,14 +120,15 @@ RSpec.describe EventsController do
   context 'Events#Delete' do
     context 'record in the database' do
       it 'should destroy a user' do
-        event = Event.create(event_params)
+        event = create(:event)
         expect { delete event_path(event), as: :json }.to change { Event.count }.by -1
         assert_response :no_content
       end
     end
+
     context 'record not in database' do
       it 'responds with 404 and does not delete any event' do
-        event = Event.create(event_params)
+        event = create(:event)
         event.delete
         expect { delete event_path(event), as: :json }.to change { Event.count }.by 0
         expect(response.status).to eq 404
