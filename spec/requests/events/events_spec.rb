@@ -3,12 +3,16 @@
 require 'rails_helper'
 
 RSpec.describe EventsController do
+  let(:user) { create(:user) }
+  let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
+  let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers(headers, user) }
   let(:endpoint) { '/events' }
   let(:event_params) { { name: 'Random Event', time_zone: 'UTC + 3', repeats: 'once', category: 'Pair programing', start_datetime: Date.parse('31-12-2010'), duration: 60 } }
   let(:invalid_event_params) { { name: nil, time_zone: 'UTC + 3', repeats: nil, category: 'Pair programing', start_datetime: Date.parse('31-12-2010'), duration: nil } }
+
   context 'GET /events' do
     context 'succesful' do
-      subject { get endpoint }
+      subject { get endpoint, headers: auth_headers }
       it 'responds with success' do
         subject
         expect(response).to have_http_status(:success)

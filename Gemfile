@@ -25,8 +25,14 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
 gem 'travis', '~> 1.8', '>= 1.8.10'
+
+# devise
+gem 'devise'
+
+# devise-jwt
+gem 'devise-jwt', '~> 0.5.9'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
