@@ -19,9 +19,9 @@ You'll do your development work on your own copy of the project.
 * Clone your fork to your local development machine (or where-ever you are going to do your development coding).
   To clone the fork, run the following command on your local machine:
     
-    `git clone https://github.com/<your-github-name>/WebsiteOneBackendApiBackendApi`
+    `git clone https://github.com/<your-github-name>/WebsiteOneBackendApi`
 
-If you need more information about git and GitHub, see this [general guide to getting set up with an AgileVentures project](http://www.agileventures.org/articles/project-setup-new-users) (use https://github.com/AgileVentures/WebsiteOneBackendApiBackendApi as the project URL).
+If you need more information about git and GitHub, see this [general guide to getting set up with an AgileVentures project](http://www.agileventures.org/articles/project-setup-new-users) (use https://github.com/AgileVentures/WebsiteOneBackendApi as the project URL).
 
 
 You should now have the entire project -- all of the directories and files -- on your local machine, _and_ it should have a `git` repository (`.git`).
@@ -38,10 +38,10 @@ git clone git@github.com:YOUR-USERNAME/YOUR-FORKED-REPO.git
 2. Add remote from original repository in your forked repository:
 ```
 cd into/cloned/fork-repo
-git remote add upstream https://github.com/AgileVentures/WebsiteOneBackendApiBackendApi.git
+git remote add upstream https://github.com/AgileVentures/WebsiteOneBackendApi.git
 git fetch upstream
 ```
-3. Updating your fork from original repo to keep up with [WebsiteOneBackendApiBackendApi](https://github.com/AgileVentures/WebsiteOneBackendApi):
+3. Updating your fork from original repo to keep up with [WebsiteOneBackendApi](https://github.com/AgileVentures/WebsiteOne):
 ```
 git pull upstream develop
 ```
@@ -86,10 +86,8 @@ If you need to update rails, you can run `bundle update rails`.  If you run into
 
 ### Step 3: Set up the database
 
-* Run the rake command to set up the database.  Be sure to use `bundle exec` so that the gems specific to this project (listed in the Gemfile) are used:
+* We using the database used in WebsiteOne. Ask for a copy of `config/database.yml`the [websiteone slack channel](https://agileventures.slack.com/archives/C029E8G80).
 
-    `bundle exec rake db:setup`
-    
 ### Step 4: Run the tests
 
 Now you're ready to run the tests:
