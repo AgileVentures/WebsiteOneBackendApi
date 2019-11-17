@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/AgileVentures/WebsiteOneBackendApi.svg?branch=develop)](https://travis-ci.org/AgileVentures/WebsiteOneBackendApi)
 # AgileVentures Backend-api
 
 Rails Api meant to separate the back-end from [WebsiteOne](https://github.com/AgileVentures/WebsiteOne) and serve the new [React front-end](https://github.com/AgileVentures/agile-ventures-website-react-front-end)
