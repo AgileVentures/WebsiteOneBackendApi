@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'POST /login', type: :request do
@@ -7,7 +8,7 @@ RSpec.describe 'POST /login', type: :request do
   let(:params) do
     {
       user: {
-        email: user.emai,
+        email: user.email,
         password: user.password
       }
     }
