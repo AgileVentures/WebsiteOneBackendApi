@@ -46,7 +46,6 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
-gem 'active_model_serializers'
 gem 'coveralls', require: false
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
