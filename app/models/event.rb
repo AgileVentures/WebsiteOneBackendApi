@@ -5,8 +5,6 @@ class Event < ApplicationRecord
 
   validates :name, :time_zone, :repeats, :category, :start_datetime, :duration, presence: true
 
-  attr_accessor :name, :id
-
   def attributes
     { id: id, name: name, description: description,
       category: category, start_datetime: start_datetime,
