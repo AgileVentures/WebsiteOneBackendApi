@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   rescue_from ActiveRecord::RecordNotFound do |e|
     render json: { error: e.message }, status: :not_found
   end
@@ -24,5 +26,11 @@ class ApplicationController < ActionController::API
         }
       ]
     }, status: :bad_request
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
   end
 end
