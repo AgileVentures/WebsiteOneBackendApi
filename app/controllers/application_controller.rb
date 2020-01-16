@@ -19,13 +19,13 @@ class ApplicationController < ActionController::API
     render json: {
       errors: [
         {
-          status: '400',
+          status: '422',
           title: 'Bad Request',
           detail: resource.errors,
           code: '100'
         }
       ]
-    }, status: :bad_request
+    }, status: :unprocessable_entity
   end
 
   protected
