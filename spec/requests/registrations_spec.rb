@@ -43,10 +43,17 @@ RSpec.describe 'RegistrationsController' do
         expect { subject }.to change(User, :count).by(1)
       end
 
-      it 'it responds with created user' do
+      it 'it returns an authorization token in the header' do
         subject
         headers = response.headers
         expect(headers.keys).to include('Authorization')
+      end
+
+      it 'returns valid JWT token' do
+        subject
+        token_from_request = response.headers['Authorization'].split(' ').last
+        decoded_token = JWT.decode(token_from_request, ENV['DEVISE_JWT_SECRET_KEY'], true)
+        expect(decoded_token.first['sub']).to be_present
       end
     end
 
