@@ -9,10 +9,7 @@ RSpec.describe EventsController do
   let(:endpoint) { '/events' }
   let(:event) { create(:event) }
   let(:invalid_event) { create(:invalid_event) }
-  let(:custom_headers) do
-    auth_headers.delete('Content-Type')
-    auth_headers
-  end
+  let(:custom_headers) { auth_headers.delete('Content-Type') && auth_headers }
 
   context 'GET /events' do
     context 'succesful' do
