@@ -43,7 +43,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.0.0.beta2'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
   gem 'pry-byebug'
-  gem 'dotenv-rails'
 end
 
 group :development do
