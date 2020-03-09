@@ -37,8 +37,8 @@ module WebsiteOneBackendApi
     config.api_only = true
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'http://your.frontend.domain.com'
-        resource '/api/*',
+        origins '*'
+        resource '*',
                  headers: %w[Authorization],
                  methods: :any,
                  expose: %w[Authorization],
