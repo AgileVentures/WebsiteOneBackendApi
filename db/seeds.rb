@@ -1,4 +1,6 @@
-20.times do 
+# frozen_string_literal: true
+
+20.times do
   Event.create(
     name: Faker::Lorem.words(number: 3).join(' '),
     category: 'PairProgramming',
