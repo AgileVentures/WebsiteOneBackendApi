@@ -3,7 +3,7 @@
 module Types
   class QueryType < Types::BaseObject
     field :events, [EventType], null: false,
-                                    description: 'Query for all events'
+                                description: 'Query for all events'
     def events
       Event.all
     end
