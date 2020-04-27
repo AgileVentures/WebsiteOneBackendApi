@@ -52,17 +52,21 @@ git pull upstream develop
 
     bundle install
 
+**Note:** If you get rbenv: version `ruby-2.6.2' is not installed
+
+    Run: `rbenv install 2.6.2`
+
 **Note:** On OSX El Capitan and above, you may get this error:
 
     An error occurred while installing eventmachine (1.0.7), and Bundler cannot continue.
     Make sure that `gem install eventmachine -v '1.0.7'` succeeds before bundling.
 
-If you then try to install the `eventmachine` gem, it also fails like this: https://github.com/eventmachine/eventmachine/issues/643.
- That's because OpenSSL is no longer distributed with OS X. So you may need to use brew to set up OpenSSL:
+    If you then try to install the `eventmachine` gem, it also fails like this: https://github.com/eventmachine/eventmachine/issues/643.
+    That's because OpenSSL is no longer distributed with OS X. So you may need to use brew to set up OpenSSL:
 
     brew link openssl --force
 
-After you do that, re-try running `bundle install` and you should be good to go on to the next step.
+    After you do that, re-try running `bundle install` and you should be good to go on to the next step.
     
 #### PostgreSQL and the `pg` gem
 The database used is [postgreSQL](https://www.postgresql.org/).  You need to have this installed and running on your local machine. 
@@ -86,13 +90,13 @@ If you need to update rails, you can run `bundle update rails`.  If you run into
 
 ### Step 3: Set up the database
 
-* We using the database used in WebsiteOne. Ask for a copy of `config/database.yml`the [websiteone slack channel](https://agileventures.slack.com/archives/C029E8G80).
+rails db:create
 
 ### Step 4: Run the tests
 
 Now you're ready to run the tests:
 
-    bundle exec rake spec
+    bin/rspec 
 
 Discuss any errors with the team on Slack, in a scrum, or in mob or pair programming.
 
