@@ -3,12 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe EventsController do
-  let(:params) { {} }
-  let(:headers) { {} }
+  let(:user) { create(:user) }
+  let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
+  let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers(headers, user) }
   let(:path) { '/events' }
 
   before(:example) do
-    post(path, params: params, headers: headers)
+    post(path, params: params.to_json, headers: auth_headers)
   end
 
   describe '#create' do
@@ -36,10 +37,10 @@ RSpec.describe EventsController do
       it 'responds with correct error messages' do
         json_response = response.parsed_body.deep_symbolize_keys!
         expect(json_response).to eq(
-         name: ["can't be blank"],
-         repeats: ["can't be blank"],
-         duration: ["can't be blank"],
-         time_zone: ["can't be blank"]
+          name: ["can't be blank"],
+          repeats: ["can't be blank"],
+          duration: ["can't be blank"],
+          time_zone: ["can't be blank"]
         )
       end
     end

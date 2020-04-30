@@ -4,25 +4,27 @@ require 'rails_helper'
 
 RSpec.describe EventsController do
   describe '#update' do
-    let(:json_response) { JSON.parse(response.body).deep_symbolize_keys! }
+    let(:user) { create(:user) }
+    let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
+    let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers(headers, user) }
+    let(:json_response) { JSON.parse(response.body, symbolize_names: true) }
     let(:event) { create(:event) }
-    let(:headers) { {} }
 
     before do
-      put(event_path(event), params: params, headers: headers)
+      put(event_path(event), params: params.to_json, headers: auth_headers)
     end
 
     describe 'valid params' do
       let(:params) { { event: { name: 'Updated Event', category: 'Scrums' } } }
 
       context 'with a valid event id'
-        it 'responds with status 200' do
-          expect(response.status).to eq(200)
-        end
+      it 'responds with status 200' do
+        expect(response.status).to eq(200)
+      end
 
-        it 'does update the event' do
-          expect(json_response).to include(params[:event])
-        end
+      it 'does update the event' do
+        expect(json_response).to include(params[:event])
+      end
 
       context 'with an invalid event id' do
         let(:event) { 'invalid' }
