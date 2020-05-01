@@ -19,7 +19,7 @@ RSpec.describe EventsController do
 
       context 'with a valid event id'
       it 'responds with status 200' do
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status :ok
       end
 
       it 'does update the event' do
@@ -30,16 +30,26 @@ RSpec.describe EventsController do
         let(:event) { 'invalid' }
 
         it 'responds with record not found' do
-          expect(response.status).to eq(404)
+          expect(response).to have_http_status :not_found
         end
       end
     end
 
     describe 'invalid params' do
-      let(:params) { {} }
+      context 'with an invalid payload' do
+        let(:params) { {} }
 
-      it 'responds with bad request' do
-        expect(response.status).to eq(400)
+        it 'responds with bad request' do
+          expect(response).to have_http_status :bad_request
+        end
+      end
+
+      context 'with an invalid event' do
+        let(:params) { { event: { name: nil } } }
+
+        it 'responds with unprocessable entity' do
+          expect(response).to have_http_status :unprocessable_entity
+        end
       end
     end
   end
