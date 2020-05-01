@@ -15,7 +15,7 @@ RSpec.describe EventsController do
   end
 
   describe '#index' do
-    let(:json_response) { response.parsed_body }
+    let(:json_response) { response.parsed_body.symbolize_keys! }
     context 'succesful' do
       it 'responds with success' do
         expect(response).to have_http_status(:success)
@@ -23,7 +23,7 @@ RSpec.describe EventsController do
 
       context 'when there are no records' do
         it 'returns a proper JSON response' do
-          expect(json_response).to eq([])
+          expect(json_response).to eq({ events: [] })
         end
       end
 
@@ -31,9 +31,7 @@ RSpec.describe EventsController do
         let(:event) { create(:event) }
 
         it 'returns a proper JSON response' do
-          hash = JSON.parse(response.body)
-
-          expect(hash[0]).to include(
+          expect(json_response[:events].first).to include(
             'category' => event.category,
             'creator_attendance' => event.creator_attendance,
             'creator_id' => event.creator_id,
