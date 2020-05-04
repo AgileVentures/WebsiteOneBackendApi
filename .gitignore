@@ -26,3 +26,5 @@
 
 #coverage
 /coverage
+
+/node_modules
