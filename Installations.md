@@ -90,6 +90,8 @@ If you need to update rails, you can run `bundle update rails`.  If you run into
 
 ### Step 3: Set up the database
 
+**NOTE The project does not have migrations. This works for tests.  See issue #70.  When you build website, it may not work because migrations are not in place.  You may need to request for the schema.rb file and then run the schema file. ** 
+
 rails db:create
 
 ### Step 4: Run the tests
