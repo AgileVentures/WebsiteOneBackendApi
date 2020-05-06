@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
+  before_action :authenticate_user!
   def index
     @events = Event.all
     render json: @events, status: 200
@@ -38,6 +39,9 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:name, :time_zone, :repeats, :category, :start_datetime, :duration)
+    params.require(:event).permit(
+      :name, :time_zone, :repeats,
+      :category, :start_datetime, :duration
+    )
   end
 end

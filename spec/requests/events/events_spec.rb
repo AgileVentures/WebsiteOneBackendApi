@@ -3,13 +3,17 @@
 require 'rails_helper'
 
 RSpec.describe EventsController do
+  let(:user) { create(:user) }
+  let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
+  let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers(headers, user) }
   let(:endpoint) { '/events' }
   let(:event) { create(:event) }
   let(:invalid_event) { create(:invalid_event) }
+  let(:custom_headers) { auth_headers.delete('Content-Type') && auth_headers }
 
   context 'GET /events' do
     context 'succesful' do
-      subject { get endpoint }
+      subject { get endpoint, headers: auth_headers }
       it 'responds with success' do
         subject
         expect(response).to have_http_status(:success)
@@ -34,7 +38,7 @@ RSpec.describe EventsController do
 
   context 'POST /events' do
     context 'valid params' do
-      subject { post '/events', params: { event: attributes_for(:event) } }
+      subject { post '/events', params: { event: attributes_for(:event) }, headers: custom_headers }
       it 'responds with 200 status' do
         subject
         expect(response.status).to eq(201)
@@ -46,7 +50,7 @@ RSpec.describe EventsController do
     end
 
     context 'invalid params' do
-      subject { post '/events', params: { event: attributes_for(:invalid_event) } }
+      subject { post '/events', params: { event: attributes_for(:invalid_event) }, headers: custom_headers }
       it 'responds with 422 status' do
         subject
         expect(response.status).to eq(422)
@@ -69,7 +73,7 @@ RSpec.describe EventsController do
   context 'PUT /events' do
     context 'valid params' do
       let(:update_event_valid_params) { { name: 'Updated Event', category: 'Scrums' } }
-      subject { put event_path(event), params: { event: update_event_valid_params } }
+      subject { put event_path(event), params: { event: update_event_valid_params }, headers: custom_headers }
       it 'responds with status 200' do
         subject
         expect(response.status).to eq(200)
@@ -84,7 +88,7 @@ RSpec.describe EventsController do
     end
 
     context 'invalid params' do
-      subject { put event_path(event), params: { event: update_event_invalid_params } }
+      subject { put event_path(event), params: { event: update_event_invalid_params }, headers: custom_headers }
       let(:update_event_invalid_params) { { name: nil, category: nil } }
       it 'responds with a 422 status' do
         subject
@@ -104,14 +108,14 @@ RSpec.describe EventsController do
     let(:event) { create(:event) }
     context 'with a valid event' do
       it 'should respond with status ok' do
-        get event_path(event)
+        get event_path(event), headers: auth_headers
         expect(response.status).to eq 200
       end
     end
 
     context 'an invalid event' do
-      it 'should raise status 400' do
-        get event_path('xyz')
+      it 'should raise status 404' do
+        get event_path('xyz'), headers: auth_headers
         expect(response.status).to eq 404
       end
     end
@@ -121,7 +125,7 @@ RSpec.describe EventsController do
     context 'record in the database' do
       it 'should destroy a user' do
         event = create(:event)
-        expect { delete event_path(event), as: :json }.to change { Event.count }.by -1
+        expect { delete event_path(event), headers: auth_headers }.to change { Event.count }.by -1
         assert_response :no_content
       end
     end
@@ -130,7 +134,7 @@ RSpec.describe EventsController do
       it 'responds with 404 and does not delete any event' do
         event = create(:event)
         event.delete
-        expect { delete event_path(event), as: :json }.to change { Event.count }.by 0
+        expect { delete event_path(event), headers: auth_headers }.to change { Event.count }.by 0
         expect(response.status).to eq 404
       end
     end
