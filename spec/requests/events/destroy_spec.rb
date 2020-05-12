@@ -7,11 +7,9 @@ RSpec.describe EventsController do
   let(:user) { create(:user) }
   let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
   let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers(headers, user) }
-  let(:path) { event_path(id) }
-  let(:params) { {} }
 
   before(:example) do
-    delete(path, params: params, headers: auth_headers)
+    delete(event_path(id), headers: auth_headers)
   end
 
   describe '#delete' do

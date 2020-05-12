@@ -4,14 +4,13 @@ require 'rails_helper'
 
 RSpec.describe EventsController do
   let(:params) { {} }
-  let(:headers) { {} }
   let(:path) { '/events' }
   let(:event) { nil }
 
   before(:example) do
     event
 
-    get(path, params: params, headers: headers)
+    get(path, params: params)
   end
 
   describe '#index' do
