@@ -11,7 +11,7 @@ RSpec.describe EventsController do
     let(:event) { create(:event) }
 
     before do
-      put(event_path(event), params: params.to_json, headers: auth_headers)
+      put(event_path(event), params: params, headers: auth_headers, as: :json)
     end
 
     describe 'valid params' do

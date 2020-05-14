@@ -9,7 +9,7 @@ RSpec.describe EventsController do
   let(:path) { '/events' }
 
   before(:example) do
-    post(path, params: params.to_json, headers: auth_headers)
+    post(path, params: params, headers: auth_headers, as: :json)
   end
 
   describe '#create' do
