@@ -159,7 +159,7 @@ Metrics/BlockNesting:
 Metrics/AbcSize:
   # The ABC size is a calculated magnitude, so this number can be a Fixnum or
   # a Float.
-  Max: 15
+  Max: 25
   Description: >-
                  A calculated magnitude based on number of assignments,
                  branches, and conditions.
