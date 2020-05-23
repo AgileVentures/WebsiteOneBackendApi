@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   def index
     @events = Event.all
-    render json: { events: @events }, status: 200
+    render json: { events: @events }, status: :ok
   end
 
   def create
