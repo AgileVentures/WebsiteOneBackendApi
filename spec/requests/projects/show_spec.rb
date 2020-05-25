@@ -26,7 +26,7 @@ RSpec.describe 'ProjectsController#show' do
   end
 
   context 'with invalid parameters' do
-    let(:project) { 2 } 
+    let(:project) { 2 }
 
     before(:example) { get(project_path(project)) }
 

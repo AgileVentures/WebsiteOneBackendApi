@@ -114,7 +114,7 @@ Be sure to read and understand [how to contribute](CONTRIBUTING.md) when you're 
 
 ## Code Style
 
-We recommend and follow the [Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide)
+We recommend and follow the [Ruby Style Guide](https://github.com/rubocop-hq/ruby-style-guide)
 
 
 
