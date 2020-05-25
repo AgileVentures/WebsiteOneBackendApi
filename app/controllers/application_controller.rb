@@ -7,6 +7,10 @@ class ApplicationController < ActionController::API
     render json: { error: e.message }, status: :not_found
   end
 
+  rescue_from ActionController::ParameterMissing do |e|
+    render json: { error: e.message }, status: :bad_request
+  end
+
   def render_resource(resource)
     if resource.errors.empty?
       render json: resource
