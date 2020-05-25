@@ -15,7 +15,7 @@ RSpec.describe 'ProjectController#create' do
 
   context 'with valid credentials' do
     context 'with valid params' do
-      let(:project_params) { { project: { title: 'good project', description: 'good project description', status: 'Closed' } } }
+      let(:project_params) { {project: { title: 'project', description: 'project description', status: 'Closed' } } }
       let(:params) { project_params }
 
       it 'responds with status 201' do
