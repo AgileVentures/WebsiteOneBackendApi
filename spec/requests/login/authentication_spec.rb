@@ -29,7 +29,7 @@ RSpec.describe 'POST /login', type: :request do
 
     it 'returns valid JWT token' do
       token_from_request = response.headers['Authorization'].split(' ').last
-      decoded_token = JWT.decode(token_from_request, ENV['DEVISE_JWT_SECRET_KEY'], true)
+      decoded_token = JWT.decode(token_from_request, Rails.application.credentials.devise_jwt[:key], true)
       expect(decoded_token.first['sub']).to be_present
     end
   end
