@@ -4,13 +4,26 @@ require 'rails_helper'
 
 RSpec.describe 'ProjectController#create' do
   let(:path) { '/projects' }
-  let(:headers) { {} }
+  let(:user) { create(:user) }
+  let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
+  let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers(headers, user) }
 
   before :example do
-    post(path, params: params, headers: headers)
+    post(path, params: params, headers: auth_headers, as: :json)
   end
 
   context 'with invalid credentials' do
+    let(:auth_headers) { headers.tap {|h| h['Authorization'] = ''} }
+    let(:project_params) { {project: { title: 'project', description: 'project description', status: 'Closed' } } }
+    let(:params) { project_params }
+
+    it 'responds with the correct error' do
+      expect(response).to have_http_status(401)
+    end
+
+    it 'does not add a new record in the database' do
+      expect { subject }.to change { Project.count }.by (0)
+    end
   end
 
   context 'with valid credentials' do
@@ -27,7 +40,8 @@ RSpec.describe 'ProjectController#create' do
       end
 
       context 'with new record in database' do
-        subject { post(path, params: params, headers: headers) }
+        subject { post(path, params: params, headers: auth_headers, as: :json) }
+
         it 'creates a record in the database' do
           expect { subject }.to change(Project, :count).by (1)
         end
@@ -42,7 +56,7 @@ RSpec.describe 'ProjectController#create' do
       end
 
       context 'with database changes' do
-        subject { post(path, params: params, headers: headers) }
+        subject { post(path, params: params, headers: auth_headers, as: :json) }
 
         it 'does not add a new record in the database' do
           expect { subject }.to change { Project.count }.by (0)

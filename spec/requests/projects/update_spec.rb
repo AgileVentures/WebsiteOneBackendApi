@@ -3,22 +3,31 @@
 require 'rails_helper'
 
 RSpec.describe 'ProjectController#update' do
-  let(:headers) { {} }
+  let(:user) { create(:user) }
+  let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
+  let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers(headers, user) }
+  let(:project_params) { { title: 'good project', description: 'good project description', status: 'Closed' } }
+  let(:project) { create(:project) }
+  let(:params) { { project: project_params } }
 
   before :example do
-    put(project_path(project), params: params, headers: headers)
+    put(project_path(project), params: params, headers: auth_headers, as: :json)
   end
 
   context 'with invalid credentials' do
+    let(:auth_headers) { headers.tap {|h| h['Authorization'] = ''} }
+
+    it 'responds with the correct error' do
+      expect(response).to have_http_status(401)
+    end
+
+    it 'does not add a new record in the database' do
+      expect(response.parsed_body.deep_symbolize_keys!).to_not include(project_params)
+    end
   end
 
   context 'with valid credentials' do
-    let(:project_params) { { title: 'good project', description: 'good project description', status: 'Closed' } }
-    let(:project) { create(:project) }
-
     context 'with valid params' do
-      let(:params) { { project: project_params } }
-
       it 'responds with status 200' do
         expect(response).to have_http_status(200)
       end

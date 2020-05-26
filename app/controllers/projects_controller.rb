@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ProjectsController < ApplicationController
+  before_action :authenticate_user!, except: [:show, :index]
   before_action :find_project, only: %i[update destroy show]
 
   def create

@@ -2,15 +2,30 @@
 
 require 'rails_helper'
 
-RSpec.describe ProjectsController do
+RSpec.describe 'ProjectsController#destroy' do
   let!(:project) { create(:project) }
-  let(:headers) { {} }
+  let(:user) { create(:user) }
+  let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
+  let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers(headers, user) }
 
   before(:example) do
-    delete(project_path(id), headers: headers)
+    delete(project_path(id), headers: auth_headers)
   end
 
-  describe '#delete' do
+  context 'with invalid credentials' do
+    let(:auth_headers) { headers.tap {|h| h['Authorization'] = ''} }
+    let(:id) { project }
+
+    it 'responds with the correct error' do
+      expect(response).to have_http_status(401)
+    end
+
+    it 'does not add a new record in the database' do
+      expect { subject }.to change { Project.count }.by (0)
+    end
+  end
+
+  context 'with invalid credentials' do
     context 'valid params' do
       let(:id) { project }
 
