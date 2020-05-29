@@ -13,7 +13,7 @@ RSpec.describe 'ProjectController#create' do
   end
 
   context 'with invalid credentials' do
-    let(:auth_headers) { headers.tap {|h| h['Authorization'] = ''} }
+    let(:auth_headers) { headers.tap { |h| h['Authorization'] = '' } }
     let(:project_params) { {project: { title: 'project', description: 'project description', status: 'Closed' } } }
     let(:params) { project_params }
 
