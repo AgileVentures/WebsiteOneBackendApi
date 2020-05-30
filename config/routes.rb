@@ -14,11 +14,11 @@ Rails.application.routes.draw do
                registrations: 'registrations'
              }
 
-	as :user do
-		post 'login', to: 'sessions#create', as: :user_session
-		delete 'logout', to: 'sessions#destroy', as: :destroy_user_session
-		post 'signup', to: 'registrations#create', as: :user_registration
-	end
+	 as :user do
+ 		 post 'login', to: 'sessions#create', as: :user_session
+ 		 delete 'logout', to: 'sessions#destroy', as: :destroy_user_session
+ 		 post 'signup', to: 'registrations#create', as: :user_registration
+ 	end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
