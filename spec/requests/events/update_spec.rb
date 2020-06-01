@@ -14,7 +14,7 @@ RSpec.describe EventsController do
       put(event_path(event), params: params, headers: auth_headers, as: :json)
     end
 
-    describe 'valid params' do
+    describe 'authenticated user' do
       let(:params) { { event: { name: 'Updated Event', category: 'Scrums' } } }
 
       context 'with a valid event id'
@@ -33,22 +33,38 @@ RSpec.describe EventsController do
           expect(response).to have_http_status :not_found
         end
       end
-    end
 
-    describe 'invalid params' do
-      context 'with an invalid payload' do
-        let(:params) { {} }
+      describe 'invalid params' do
+        context 'with an invalid payload' do
+          let(:params) { {} }
 
-        it 'responds with bad request' do
-          expect(response).to have_http_status :bad_request
+          it 'responds with bad request' do
+            expect(response).to have_http_status :bad_request
+          end
+        end
+
+        context 'with an invalid event' do
+          let(:params) { { event: { name: nil } } }
+
+          it 'responds with unprocessable entity' do
+            expect(response).to have_http_status :unprocessable_entity
+          end
         end
       end
+    end
 
-      context 'with an invalid event' do
-        let(:params) { { event: { name: nil } } }
+    describe 'unauthenticated user' do
+      let(:auth_headers) { headers.tap { |h| h['Authorization'] = '' } }
+      let(:params) { { event: { name: 'Updated Event', category: 'Scrums' } } }
+      context 'valid params' do
+        it 'responds with 401 status' do
+          expect(response.status).to eq(401)
+        end
 
-        it 'responds with unprocessable entity' do
-          expect(response).to have_http_status :unprocessable_entity
+        it 'does not update the events record' do
+          not_updated_event = Event.find(event.id)
+          # binding.pry
+          expect(not_updated_event.name).to eq(event.name)
         end
       end
     end

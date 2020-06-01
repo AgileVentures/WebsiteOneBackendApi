@@ -13,27 +13,43 @@ RSpec.describe EventsController do
   end
 
   describe '#delete' do
-    context 'valid params' do
-      let(:id) { event }
+    describe 'authenticated user' do
+      context 'valid params' do
+        let(:id) { event }
 
-      it 'destroys an event' do
-        expect(Event.count).to eq(0)
+        it 'destroys an event' do
+          expect(Event.count).to eq(0)
+        end
+
+        it 'responds with the correct status' do
+          expect(response).to have_http_status :no_content
+        end
       end
 
-      it 'responds with the correct status' do
-        expect(response).to have_http_status :no_content
+      context 'invalid params' do
+        let(:id) { 'invalid' }
+
+        it 'does not delete the event' do
+          expect(Event.count).to eq(1)
+        end
+
+        it 'responds with the correct status' do
+          expect(response).to have_http_status :not_found
+        end
       end
     end
 
-    context 'invalid params' do
-      let(:id) { 'invalid' }
+    context 'unauthenticated user' do
+      context 'valid params' do
+        let(:auth_headers) { headers.tap { |h| h['Authorization'] = '' } }
+        let(:id) { event }
+        it 'responds with 401 status' do
+          expect(response.status).to eq(401)
+        end
 
-      it 'does not delete the event' do
-        expect(Event.count).to eq(1)
-      end
-
-      it 'responds with the correct status' do
-        expect(response).to have_http_status :not_found
+        it 'does not delete record in the events table' do
+          expect(Event.count).to eq(1)
+        end
       end
     end
   end
