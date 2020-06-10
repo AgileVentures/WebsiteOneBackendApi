@@ -3,7 +3,7 @@ env:
     - CC_TEST_REPORTER_ID=ABC123
 language: ruby
 rvm:
-  - 2.6.2
+  - 2.6.3
 services:
   - postgresql
 install:
