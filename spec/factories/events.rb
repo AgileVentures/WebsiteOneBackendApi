@@ -7,7 +7,7 @@ FactoryBot.define do
     time_zone { 'UTC + 3' }
     repeats { 'once' }
     category { 'Pair programing' }
-    start_datetime { Date.parse('31-12-2010') }
+    start_datetime { 1.month.from_now }
     duration { 60 }
   end
 

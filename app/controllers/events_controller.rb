@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
+  before_action :authenticate_user!, except: [:show, :index]
   def index
     @events = Event.all
-    render json: @events, status: 200
+    render json: { events: @events }, status: :ok
   end
 
   def create
@@ -16,7 +17,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    @event = Event.find_by(id: params[:id])
+    @event = Event.find(params[:id])
     if @event.update(event_params)
       render json: @event, status: :ok
     else
@@ -38,6 +39,9 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:name, :time_zone, :repeats, :category, :start_datetime, :duration)
+    params.require(:event).permit(
+      :name, :time_zone, :repeats,
+      :category, :start_datetime, :duration
+    )
   end
 end

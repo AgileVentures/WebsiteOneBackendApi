@@ -20,4 +20,10 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+#coverage
 /coverage
+
+/node_modules
+
+/config/credentials/production.key
