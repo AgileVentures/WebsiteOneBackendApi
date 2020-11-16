@@ -168,7 +168,7 @@ Metrics/AbcSize:
 
 Metrics/MethodLength:
   CountComments: false
-  Max: 7
+  Max: 12
   Description: 'Avoid methods longer than 10 lines of code.'
   StyleGuide: 'https://github.com/rubocop-hq/ruby-style-guide#short-methods'
   Enabled: true
