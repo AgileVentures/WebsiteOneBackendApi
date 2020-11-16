@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-class Mutations::CreateEventTest < ActiveSupport::TestCase
+class CreateEventTest < ActiveSupport::TestCase
   context 'event creation' do
     let(:event) do
       perform(
@@ -15,7 +15,7 @@ class Mutations::CreateEventTest < ActiveSupport::TestCase
       )
     end
 
-    def perform(user: nil, **args)
+    def perform(**args) #(user: nil, **args)
       Mutations::CreateEvent.new(object: nil, field: nil, context: {}).resolve(args)
     end
 
@@ -24,7 +24,8 @@ class Mutations::CreateEventTest < ActiveSupport::TestCase
     end
 
     it 'saves with correct values' do
-      expect(event).to have_attributes(name: 'some event', category: 'PairProgramming', time_zone: 'UTC', repeats: 'never', duration: 60)
+      expect(event).to have_attributes(name: 'some event', category: 'PairProgramming',
+        time_zone: 'UTC', repeats: 'never', duration: 60)
     end
 
     it 'sets the start_datetime' do
