@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'graphql_helper'
 
 RSpec.describe 'Events' do
    
@@ -20,10 +21,8 @@ RSpec.describe 'Events' do
       GRAPHQL
       
     result = WebsiteOneBackendApiSchema.execute(query_string)["data"]["events"]
-  
-    names = result.collect {|x| x["name"]}
-
-    assert names.detect { |e| e == 'FirstEvent' }
-    assert names.detect { |e| e == 'AnotherEvent' }
+   
+    expect(result).to json_contains('FirstEvent', 'name')
+    expect(result).to json_contains('AnotherEvent', 'name')
   end
 end
