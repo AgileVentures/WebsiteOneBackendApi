@@ -2,6 +2,7 @@
 
 class GraphqlController < ApplicationController
   before_action :fetch_params, only: [:execute]
+  skip_before_action :verify_authenticity_token
 
   def execute
     result = WebsiteOneBackendApiSchema.execute(
