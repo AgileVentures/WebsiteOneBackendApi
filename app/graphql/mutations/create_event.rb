@@ -8,6 +8,7 @@ module Mutations
     argument :repeats, String, required: true
     argument :start_datetime, GraphQL::Types::ISO8601DateTime, required: true
     argument :duration, Int, required: true
+    argument :repeat_ends, Boolean, required: true
 
     type Types::EventType
 
@@ -20,5 +21,5 @@ end
 private
 
 def event_params
-  params.require(:event).permit(:name, :time_zone, :repeats, :category, :start_datetime, :duration)
+  params.require(:event).permit(:name, :time_zone, :repeats, :category, :start_datetime, :duration, :repeat_ends)
 end
