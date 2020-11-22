@@ -134,8 +134,8 @@ Layout/DefEndAlignment:
 
 Metrics/ClassLength:
   CountComments: false  # count full line comments?
-  Max: 100
-  Description: 'Avoid classes longer than 100 lines of code.'
+  Max: 250
+  Description: 'Avoid classes longer than 250 lines of code.'
   Enabled: true
 
 Metrics/ModuleLength:
@@ -145,7 +145,7 @@ Metrics/ModuleLength:
   Enabled: true
 
 Metrics/CyclomaticComplexity:
-  Max: 6
+  Max: 8
   Description: >-
                  A complexity metric that is strongly correlated to the number
                  of test cases needed to validate a method.
@@ -159,7 +159,7 @@ Metrics/BlockNesting:
 Metrics/AbcSize:
   # The ABC size is a calculated magnitude, so this number can be a Fixnum or
   # a Float.
-  Max: 13
+  Max: 24
   Description: >-
                  A calculated magnitude based on number of assignments,
                  branches, and conditions.
@@ -168,8 +168,8 @@ Metrics/AbcSize:
 
 Metrics/MethodLength:
   CountComments: false
-  Max: 12
-  Description: 'Avoid methods longer than 10 lines of code.'
+  Max: 18
+  Description: 'Avoid methods longer than 18 lines of code.'
   StyleGuide: 'https://github.com/rubocop-hq/ruby-style-guide#short-methods'
   Enabled: true
 
@@ -181,7 +181,7 @@ Metrics/ParameterLists:
   Enabled: true
 
 Metrics/PerceivedComplexity:
-  Max: 7
+  Max: 8
   Description: >-
                  A complexity metric geared towards measuring complexity for a
                  human reader.
@@ -769,17 +769,8 @@ Style/WhileUntilDo:
   StyleGuide: 'https://github.com/rubocop-hq/ruby-style-guide#no-multiline-while-do'
   Enabled: true
 
+##################### Rails ##################################
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+Rails/Delegate:
+  Description: 'Use `delegate` to define delegations.'
+  Enabled: false

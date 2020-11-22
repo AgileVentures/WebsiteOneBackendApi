@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Types
   class QueryType < Types::BaseObject
-    
+
     field :events, [EventType], null: false, description: 'Query for all events' do
       argument :order_by, String, required: false
       argument :order_direction, String, required: false
