@@ -3,12 +3,11 @@ require 'graphql_helper'
 
 RSpec.describe 'Upcoming Events' do
 
-  it 'queries and returns events in next 10 days' do
+  it 'queries and returns upcoming events up to limit of 100' do
     create(:event, name: 'EventName',
                    start_datetime: DateTime.tomorrow,
                    duration: '1',
-                   repeats: 'weekly'
-          )
+                   repeats: 'weekly')
 
     query_string = <<-GRAPHQL
     query
