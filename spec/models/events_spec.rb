@@ -320,6 +320,27 @@ RSpec.describe Event do
       end
     end
 
+    describe '#next_occurence' do
+      before do
+        @event = FactoryBot.create(:event,
+          name: 'Spec Scrum',
+          category: 'Scrum',
+          start_datetime: 'Mon, 10 Jun 2013 09:00:00 UTC',
+          duration: 30,
+          repeats: 'weekly',
+          repeats_every_n_weeks: 1,
+          repeats_weekly_each_days_of_the_week_mask: 0b1000000,
+          repeat_ends: true,
+          repeat_ends_on: '2013-07-01')
+      end
+
+      it 'should return the next occurence of the event' do
+        Delorean.time_travel_to(Time.zone.parse('2013-06-15 09:27:00 UTC'))
+        e = Event.next_occurrence('Scrum')
+        expect(e.start_datetime).to eq(Time.zone.parse('2013-06-10 09:00:00 UTC'))
+      end
+    end
+
     describe '#next_occurences' do
       before do
         @event = FactoryBot.build_stubbed(:event,
