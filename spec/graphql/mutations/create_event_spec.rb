@@ -11,7 +11,8 @@ class CreateEventTest < ActiveSupport::TestCase
         time_zone: 'UTC',
         repeats: 'never',
         start_datetime: '2018-08-05 14:19:00',
-        duration: 60
+        duration: 60,
+        repeat_ends: true
       )
     end
 
@@ -25,7 +26,7 @@ class CreateEventTest < ActiveSupport::TestCase
 
     it 'saves with correct values' do
       expect(event).to have_attributes(name: 'some event', category: 'PairProgramming',
-        time_zone: 'UTC', repeats: 'never', duration: 60)
+        time_zone: 'UTC', repeats: 'never', duration: 60, repeat_ends: true)
     end
 
     it 'sets the start_datetime' do
