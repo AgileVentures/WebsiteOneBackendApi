@@ -10,5 +10,6 @@ module Types
     field :start_datetime, GraphQL::Types::ISO8601DateTime, null: false
     field :duration, Int, null: false
     field :description, String, null: true
+    field :slug, String, null: false
   end
 end
