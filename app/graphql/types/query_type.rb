@@ -2,6 +2,13 @@
 module Types
   class QueryType < Types::BaseObject
 
+    field :event, EventType, null: false, description: 'Query an event' do
+      argument :slug, String, required: true
+    end
+    def event(slug:)
+      Event.find_by(slug: slug)
+    end
+
     field :events, [EventType], null: false, description: 'Query for all events' do
       argument :order_by, String, required: false
       argument :order_direction, String, required: false
