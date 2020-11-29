@@ -25,5 +25,12 @@ module Types
     def upcoming_events
       Event.upcoming_events
     end
+
+    field :next_event, UpcomingEventType, null: false, description: 'Query for next event' do
+      argument :slug, String, required: true
+    end
+    def next_event(slug:)
+      Event.find_by(slug: slug).next_event_occurrence_with_time
+    end
   end
 end
