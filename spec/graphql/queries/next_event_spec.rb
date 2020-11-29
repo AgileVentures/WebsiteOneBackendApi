@@ -20,9 +20,9 @@ RSpec.describe 'Next Event' do
         }
       }
     GRAPHQL
-               
+
     result = WebsiteOneBackendApiSchema.execute(query_string)['data']['nextEvent']
-               
-    expect(result['event']['name']).to eq "Event Name"
+
+    expect(result['event']['name']).to eq 'Event Name'
   end
 end
