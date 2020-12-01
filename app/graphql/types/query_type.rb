@@ -2,6 +2,13 @@
 module Types
   class QueryType < Types::BaseObject
 
+    field :event, EventType, null: false, description: 'Query an event' do
+      argument :slug, String, required: true
+    end
+    def event(slug:)
+      Event.find_by(slug: slug)
+    end
+
     field :events, [EventType], null: false, description: 'Query for all events' do
       argument :order_by, String, required: false
       argument :order_direction, String, required: false
@@ -17,6 +24,13 @@ module Types
     field :upcoming_events, [UpcomingEventType], null: false, description: 'Query for upcoming events'
     def upcoming_events
       Event.upcoming_events
+    end
+
+    field :next_event, UpcomingEventType, null: false, description: 'Query for next event' do
+      argument :slug, String, required: true
+    end
+    def next_event(slug:)
+      Event.find_by(slug: slug).next_event_occurrence_with_time
     end
   end
 end

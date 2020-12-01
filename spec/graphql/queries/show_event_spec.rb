@@ -5,6 +5,25 @@ require 'graphql_helper'
 
 RSpec.describe 'Events' do
 
+  it 'queries and returns an event' do
+    create(:event, name: 'FirstEvent')
+
+    query_string = <<-GRAPHQL
+    query
+     {
+       event (slug: "firstevent") {
+          id
+          duration
+          name
+        }
+      }
+      GRAPHQL
+
+    result = WebsiteOneBackendApiSchema.execute(query_string)['data']['event']
+
+    expect(result['name']).to eq 'FirstEvent'
+  end
+
   it 'queries and returns all events' do
     create(:event, name: 'FirstEvent')
     create(:event, name: 'AnotherEvent')
