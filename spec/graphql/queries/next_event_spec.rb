@@ -25,4 +25,33 @@ RSpec.describe 'Next Event' do
 
     expect(result['event']['name']).to eq 'Event Name'
   end
+
+  it 'queries and returns an appropriate error when no event exists ' do
+
+    query_string = <<-GRAPHQL
+    query
+      {
+        nextEvent(slug: "event-name-missing") {
+          event {
+            id
+            name
+          }
+          time
+        }
+      }
+    GRAPHQL
+
+    expected_result = {
+      'data' => nil,
+      'errors' => [
+        {
+          'message' => 'Cannot return null for non-nullable field Query.nextEvent'
+        }
+      ]
+    }
+
+    result = WebsiteOneBackendApiSchema.execute(query_string).to_h
+
+    expect(result).to eq expected_result
+  end
 end
