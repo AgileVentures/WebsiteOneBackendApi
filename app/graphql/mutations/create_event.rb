@@ -4,6 +4,8 @@ module Mutations
   class CreateEvent < BaseMutation
     argument :name, String, required: true
     argument :category, String, required: true
+    argument :description, String, required: true
+    argument :project_id, Int, required: false
     argument :time_zone, String, required: true
     argument :repeats, String, required: true
     argument :start_datetime, GraphQL::Types::ISO8601DateTime, required: true
@@ -24,6 +26,6 @@ end
 private
 
 def event_params
-  params.require(:event).permit(:name, :time_zone, :repeats, :category, :start_datetime, :duration,
-    :repeat_ends, :repeats_every_n_weeks, :repeat_ends_on, :repeats_weekly_each_days_of_the_week_mask)
+  params.require(:event).permit(:name, :description, :time_zone, :repeats, :category, :start_datetime, :duration,
+    :repeat_ends, :repeats_every_n_weeks, :repeat_ends_on, :repeats_weekly_each_days_of_the_week_mask, :project_id)
 end
