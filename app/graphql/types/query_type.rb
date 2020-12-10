@@ -30,7 +30,8 @@ module Types
       argument :slug, String, required: true
     end
     def next_event(slug:)
-      Event.find_by(slug: slug).next_event_occurrence_with_time
+      e = Event.find_by(slug: slug)
+      e.nil? ? e : e.next_event_occurrence_with_time
     end
 
     field :projects, [ProjectType], null: false, description: 'Query for all projects'
