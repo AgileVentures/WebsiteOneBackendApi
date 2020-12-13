@@ -33,5 +33,10 @@ module Types
       e = Event.find_by(slug: slug)
       e.nil? ? e : e.next_event_occurrence_with_time
     end
+
+    field :projects, [ProjectType], null: false, description: 'Query for all projects'
+    def projects
+      Project.all.where(status: 'Active').order('title')
+    end
   end
 end
