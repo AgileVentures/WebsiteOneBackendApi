@@ -55,12 +55,12 @@ RSpec.describe 'RegistrationsController' do
       end
     end
 
-    #describe 'error' do
-    #  it 'responds with error with invalid params' do
-    #    post endpoint, params: invalid_params
-    #    json_response = response.parsed_body
-    #    expect(json_response['errors'][0]['detail'].keys).to match_array(%w[email password password_confirmation])
-    #  end
-    #end
+    describe 'error' do
+      it 'responds to error with message' do
+        post endpoint, params: invalid_params
+        json_response = response.parsed_body
+        expect(json_response['errors'][0]['title']).to eq('Bad Request')
+      end
+    end
   end
 end
