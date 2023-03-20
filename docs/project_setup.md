@@ -42,41 +42,37 @@ git pull upstream develop
 ```
 
 ### Step 3: Install the gems with `bundle install`
-
-    bundle install
+```
+bundle install
+```
 
 #### PostgreSQL and the `pg` gem
 The database used is [postgreSQL](https://www.postgresql.org/).  You need to have this installed and running on your local machine. 
 (The `pg` gem accesses the postgreSQL database.)  [Here are instructions on installing postgreSQL.](development_environment_set_up.md#postgreSQL)
 
-#### Updating Rails
-If you need to update rails, you can run `bundle update rails`.  If you run into problems with rails and `libv8` on OS X, try this:
-```shell
-   gem uninstall libv8
-   brew install v8
-   gem install therubyracer
-   gem install libv8 -v '3.16.14.3' -- --with-system-v8
-```
 
 ### Step 4: Set up the database
 
 * Run the rake command to set up the database.  Be sure to use `bundle exec` so that the gems specific to this project (listed in the Gemfile) are used:
-
-    `bundle exec rake db:setup`
+```
+bundle exec rake db:setup
+```
     
 ### Step 5: Run the tests
 
 Now you're ready to run the tests:
-
-    bundle exec rake spec
-
+```
+bundle exec rake spec
+```
 Discuss any errors with the team on Slack, in a scrum, or in mob or pair programming.
 
 ### Step 6. Start the server
+```
+bundle exec rails s
+```    
+You can now see the system working on your local development environment by querying the GraphQL api:
 
-    bundle exec rails s
-    
-You can now see the system working on your local development environment!
+    http://localhost:3000/graphiql
     
 Be sure to read and understand [how to contribute](../CONTRIBUTING.md) when you're ready to start developing and contributing.
  

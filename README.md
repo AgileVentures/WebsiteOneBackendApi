@@ -9,9 +9,9 @@ Rails Api meant to separate the back-end from [WebsiteOne](https://github.com/Ag
 
 ### Dependencies
 
-- Ruby  `2.6.2`
+- Ruby  `2.7.2`
 
-- Rails `6.0.0`
+- Rails `6.0.2`
 
 - Database: Postgres
 
