@@ -20,8 +20,6 @@ Rails.application.routes.draw do
  		 post 'signup', to: 'registrations#create', as: :user_registration
  	end
 
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-
   #resources :events, only: %w[index create update show destroy]
   #resources :projects
   if Rails.env.development?
