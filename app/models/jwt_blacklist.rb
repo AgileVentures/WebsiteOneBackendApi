@@ -3,5 +3,5 @@
 class JwtBlacklist < ApplicationRecord
   self.table_name = 'jwt_blacklist'
 
-  include Devise::JWT::RevocationStrategies::Blacklist
+#  include Devise::JWT::RevocationStrategies::Blacklist
 end
