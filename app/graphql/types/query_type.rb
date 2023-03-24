@@ -10,7 +10,7 @@ module Types
       argument :slug, String, required: true
     end
     def event(slug:)
-      Event.find_by(slug: slug)
+      Event.find_by(slug:)
     end
 
     field :events, [EventType], null: false, description: 'Query for all events' do
@@ -34,7 +34,7 @@ module Types
       argument :slug, String, required: true
     end
     def next_event(slug:)
-      e = Event.find_by(slug: slug)
+      e = Event.find_by(slug:)
       e.nil? ? e : e.next_event_occurrence_with_time
     end
 

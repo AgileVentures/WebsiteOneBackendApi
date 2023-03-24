@@ -4,6 +4,13 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :find_project, only: %i[update destroy show]
 
+  def index
+    @projects = Project.all
+    render json: @projects, status: :ok
+  end
+  def show
+    render json: @project
+  end
   def create
     @project = Project.create(project_params)
 
@@ -14,10 +21,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def index
-    @projects = Project.all
-    render json: @projects, status: :ok
-  end
 
   def update
     if @project.update(project_params)
@@ -27,13 +30,10 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def show
-    render json: @project
-  end
 
   def destroy
     @project.destroy
-    head 204
+    head :no_content
   end
 
   private

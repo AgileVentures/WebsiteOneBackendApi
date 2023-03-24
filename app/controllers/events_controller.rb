@@ -7,6 +7,10 @@ class EventsController < ApplicationController
     render json: { events: @events }, status: :ok
   end
 
+  def show
+    @event = Event.find_by!(id: params[:id])
+    render json: @event
+  end
   def create
     @event = Event.new(event_params)
     if @event.save
@@ -25,15 +29,11 @@ class EventsController < ApplicationController
     end
   end
 
-  def show
-    @event = Event.find_by!(id: params[:id])
-    render json: @event
-  end
 
   def destroy
     @event = Event.find(params[:id])
     @event.destroy
-    head 204
+    head :no_content
   end
 
   private
