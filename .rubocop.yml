@@ -3,7 +3,8 @@ AllCops:
   DisabledByDefault: true
   DisplayCopNames: true
   DisplayStyleGuide: true
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.2.1
+  NewCops: enable
   Exclude:
     - 'spec/spec_helper.rb'
     - 'db/**/*'
